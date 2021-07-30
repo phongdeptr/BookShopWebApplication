@@ -1,0 +1,62 @@
+<%-- any content can be specified here e.g.: --%>
+<%@ page pageEncoding="UTF-8" %>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
+<header class="header">
+    <div class="header__top">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-6 col-md-8 col-sm-6 col-xs-12 ">
+                    <c:set var="user" value="${sessionScope.LOGIN_USER}"/>
+                    <c:if var="isLogin" test="${user != null}">
+                        <p style="display: inline-block">Welcome user ${user.fullName}</p>
+                        <a style="float: next; margin-left: 20px; display: inline-block" href="LogoutController">Logout</a>
+                    </c:if>
+                    <c:if test="${user.isAdmin == true}">
+                        <c:redirect url="admin.jsp"></c:redirect>
+                    </c:if>
+                </div>
+                <c:if test="${!isLogin}">
+                    <div class="col-lg-6 col-md-4 col-sm-6 col-xs-12 ">
+                        <div class="header__actions"><a href="login.jsp">Login Now</a>
+                        </div>
+                    </div>
+                </c:if>
+            </div>
+        </div>
+    </div>
+    <nav class="navigation">
+        <div class="container-fluid">
+            <div class="navigation__column left">
+                <div class="header__logo"><a class="ps-logo" href="index.jsp"><img src="images/logo.png" alt=""></a></div>
+            </div>
+            <div class="navigation__column center">
+                <ul class="main-menu menu">
+                    <li class="menu-item menu-item-has-children dropdown">
+                        <a href="index.jsp">Home</a>
+                    </li>
+                    <li class="menu-item menu-item-has-children has-mega-menu"><a href="#">Category</a>
+                        <div class="mega-menu">
+                            <div class="mega-wrap">
+                                <div class="mega-column">
+                                    <ul class="mega-item">
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="menu-item menu-item-has-children dropdown" onclick=""><a href="ViewOrderController">Your Order</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="navigation__column right">                   
+                <c:if test="${user != null}">
+                    <form class="ps-search--header" action="SearchController" method="post" id="myform">
+                        <input class="form-control" type="text" placeholder="Search Product…" name="keyword">
+                        <button form="myform"><i class="ps-icon-search"></i></button>
+                    </form>
+                </c:if>
+                <div class="ps-cart"><a class="ps-cart__toggle" href="MainController?action=viewcart"><span><i>20</i></span><i class="ps-icon-shopping-cart"></i></a>
+                </div>
+            </div>
+    </nav>          
+</header>
